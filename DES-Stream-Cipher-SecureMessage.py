@@ -89,6 +89,10 @@ class UniqueIVEncryptor:
 def main():
     # Generate a random key for DES
     des_key = get_random_bytes(8)
+    
+    # Initializing number of runs
+    num_runs = 0
+    
     while True:
         print("\n╔═══════════════════════════════════════╗\n"
                 "║        Please select an option:       ║\n"
@@ -111,6 +115,8 @@ def main():
         if choice == 1:
           encryptor = FixedIVEncryptor(des_key)
           iv_warning_count = 0
+          num_runs_fixed = 0
+          
           while True:
             message = input("\n╔═══════════════════════════════════════╗\n"
                               "║            Type - Message:            ║\n"
@@ -119,25 +125,22 @@ def main():
                               "║  (Or 'back' to return to main menu:   ║\n"
                               "╚═══════════════════════════════════════╝\n")
             if message.lower() == "back":
-                break
+              break
 
             encoded_message, encoded_iv = encryptor.encrypt(message)
 
-            if iv_warning_count % 2 == 0:
-                print("\n╔═══════════════════════════════════════╗\n"
-                        "║            WARNING - Message:         ║\n"
-                        "║---------------------------------------║\n"
-                        "║  Next two uses a repeated IV:         ║\n"
-                        "╚═══════════════════════════════════════╝\n")
             iv_warning_count += 1
+            num_runs_fixed += 1
 
-            print("\nEncrypted message: ---> ", encoded_message)
+            print("\nRun number: --->", num_runs_fixed)
+            print("User-A Encrypted message: ---> ", encoded_message)
             print("IV Used: ---> ", encoded_iv)
             decrypted_message = encryptor.decrypt(encoded_message, encoded_iv)
-            print("Decrypted message: ---> " + decrypted_message + "\n")
+            print("User-B Decrypted message: ---> " + decrypted_message + "\n")
 
         elif choice == 2:
           encryptor = UniqueIVEncryptor(des_key)
+          num_runs_unique = 0
           while True:
             message = input("\n╔═══════════════════════════════════════╗\n"
                               "║           Type - Message:             ║\n"
@@ -146,13 +149,16 @@ def main():
                               "║  (Or 'back' to return to main menu:   ║\n"
                               "╚═══════════════════════════════════════╝\n")
             if message.lower() == "back":
-                break
+              break
 
-            encoded_message, encoded_iv = encryptor.encrypt(message)          
-            print("Encrypted message: ---> ", encoded_message)
+            encoded_message, encoded_iv = encryptor.encrypt(message)
+            num_runs_unique += 1
+
+            print("\nRun number: --->", num_runs_unique)          
+            print("User-A Encrypted message: ---> ", encoded_message)
             print("IV Used: ---> ", encoded_iv)
             decrypted_message = encryptor.decrypt(encoded_message, encoded_iv)
-            print("Decrypted message: ---> " + decrypted_message + "\n")
+            print("User-B Decrypted message: ---> " + decrypted_message + "\n")
             
         elif choice == 3:
             print("\n╔═╗╔═╗╔╗╔╦ ╦  ╦═╗╔═╗╔╦╗╔═╗╔╗╔╔═╗╦═╗\n"
