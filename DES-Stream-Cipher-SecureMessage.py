@@ -90,9 +90,6 @@ def main():
     # Generate a random key for DES
     des_key = get_random_bytes(8)
     
-    # Initializing number of runs
-    num_runs = 0
-    
     while True:
         print("\n╔═══════════════════════════════════════╗\n"
                 "║        Please select an option:       ║\n"
